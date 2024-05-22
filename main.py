@@ -12,7 +12,7 @@ st.set_page_config(
 
 # Initialize Groq client
 client = Groq(
-    api_key = st.secrets("API_KEY")
+    api_key = st.secrets["API_KEY"]
 )
 
 # Define a function to stream text
