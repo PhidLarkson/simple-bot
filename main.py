@@ -15,11 +15,12 @@ client = Groq(
     api_key = st.secrets["API_KEY"]
 )
 
+
 # Define a function to stream text
 def stream_data(text):
     for char in text:
         yield char
-        time.sleep(0.02)
+        time.sleep(0.01)
 
 # Define a function to summarize text
 def summarize_text(text, manner):
@@ -35,11 +36,6 @@ def summarize_text(text, manner):
     )
     return summariser.choices[0].message.content
 
-# Define a function to store conversation
-def store_conversation(content):
-    with open("talk.txt", "a") as file:
-        file.write("\n")
-        file.write(content)
 
 # Main app
 st.title(':heart: _Project_ :blue[JALI!] ')
@@ -67,10 +63,6 @@ if slider is not None:
 
             if st.sidebar.button("Explain this to me"):
                 st.write(summarize_text(topic, manner))
-                store_conversation(summarize_text(topic, manner))
-
-            if st.sidebar.button("Store this conversation"):
-                store_conversation(summarize_text(topic, manner))
 
         except:
             st.write("No text found")
@@ -78,9 +70,6 @@ if slider is not None:
 # Chat input
 input_ = st.chat_input("Say something")
 if input_:
-    with open("talk.txt", "w") as file:
-        file.write(input_)
-
     with st.chat_message("user"):
         st.write(f"{input_}")
 
@@ -102,4 +91,4 @@ if input_:
         data = f"{chat_completion.choices[0].message.content}"
         st.write_stream(stream_data(data))
 
-    st.write(summarize_text(topic, manner))
+    # st.write(summarize_text(topic, manner))
